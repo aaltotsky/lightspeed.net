@@ -1,4 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Utf8Json;
+using Utf8Json.Resolvers;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -24,8 +26,9 @@ namespace lightspeed.net.Controllers
 
         // POST api/<EmailController>
         [HttpPost]
-        public IActionResult Post([FromBody] Email value)
+        public async Task<IActionResult> Post()
         {
+            Email value = await JsonSerializer.DeserializeAsync<Email>(Request.Body, StandardResolver.CamelCase);
             return Ok(value?.EmailAddress);
         }
 
